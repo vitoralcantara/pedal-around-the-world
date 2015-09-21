@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/5/trunk/stunat/djtools/management/commands
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/5/trunk/stunat/djtools/management/commands/__init__.py
+END
+generate_completion_file.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/5/trunk/stunat/djtools/management/commands/generate_completion_file.py
+END
+create_apache_files.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/5/trunk/stunat/djtools/management/commands/create_apache_files.py
+END
+sync_search_fields.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/5/trunk/stunat/djtools/management/commands/sync_search_fields.py
+END

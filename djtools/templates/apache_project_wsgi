@@ -1,0 +1,8 @@
+import os, sys
+from django.core.handlers import wsgi
+
+sys.path.append('{{ project_parent_root }}')
+sys.path.append('{{ project_root }}')
+os.environ['DJANGO_SETTINGS_MODULE'] = '{{ project_name }}.settings'
+
+application = wsgi.WSGIHandler()

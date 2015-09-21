@@ -1,0 +1,18 @@
+#frequencias_pessoa {
+	margin-top:8px;
+}
+#frequencias_pessoa th {
+	text-align:center;
+}
+.data, .dia, .registros, .duracao {
+	text-align:center;
+	width:100px;	
+}
+hr {
+	border:1px solid #9C9C9C; 
+	margin: 60px 120px;
+}
+
+#teste {
+	border: solid;
+}

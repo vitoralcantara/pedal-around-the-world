@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/5/trunk/stunat/djtools/auth_backend
+END
+active_directory.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/5/trunk/stunat/djtools/auth_backend/active_directory.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/5/trunk/stunat/djtools/auth_backend/__init__.py
+END

@@ -1,0 +1,35 @@
+.inline-group .tabular tr th.original { padding-top:0.5em; border:0; }
+.inline-group .tabular tr td { border:0; }
+.inline-group .tabular tr td.original { padding-top:0.5em; }
+.inline-group .tabular tr.has_original td { padding-top:0.5em; }
+.inline-group .tabular tr.has_original td.original p { display:none; border:0; }
+
+.inline-related .module { padding:0; }
+.inline-related .module h2 { font-size:11px; }
+.inline-related .module table tr td.icon_link { width:15px; }
+.inline-related .module table a { margin:2px; }
+.inline-related .module .tool-box { 
+    background-color:#eee; 
+	height:22px; 
+	padding:5px 10px; 
+	margin:8px 0; 
+}
+.inline-related .module .tool-box li { 
+    display:block; 
+	float:left; 
+	padding:3px 12px; 
+	margin-right:5px;
+	border:1px solid #bbb;
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+    background:#fff url("../img/bg-botao.png") repeat-x center center;
+}
+.inline-related .module .tool-box li:hover {
+	border:1px solid #fff;
+    border-top:1px solid #bbb;
+    border-left:1px solid #bbb;
+	background:#fff url("../img/bg-botao.png") repeat-x center center;
+}
+.inline-related .module .tool-box li a:hover {
+	text-decoration:none !important;
+}

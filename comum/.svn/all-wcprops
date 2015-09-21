@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/14/trunk/stunat/comum
+END
+admin.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/3/trunk/stunat/comum/admin.py
+END
+choices.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/14/trunk/stunat/comum/choices.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3/trunk/stunat/comum/__init__.py
+END
+utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/3/trunk/stunat/comum/utils.py
+END
+tests.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/3/trunk/stunat/comum/tests.py
+END
+models.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/7/trunk/stunat/comum/models.py
+END
+forms.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/3/trunk/stunat/comum/forms.py
+END

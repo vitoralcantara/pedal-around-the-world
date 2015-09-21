@@ -1,0 +1,16 @@
+
+{% extends super_template|default:"admin/base_site.html" %}
+
+{% load djtools_templatetags %}
+
+{% block content %}
+	
+    {% if h1 or form.TITLE %}
+        <h1>{{ h1 }}{{ form.TITLE }}</h1>
+    {% endif %}
+    
+    {% if form %}
+    	{% render_form form %}
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/5/trunk/stunat/djtools/middleware
+END
+exception.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/5/trunk/stunat/djtools/middleware/exception.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/5/trunk/stunat/djtools/middleware/__init__.py
+END
+threadlocals.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/5/trunk/stunat/djtools/middleware/threadlocals.py
+END

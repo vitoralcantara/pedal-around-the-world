@@ -1,0 +1,10 @@
+.field-field, .field-label {
+	float: left;
+}
+.field-box-later label {
+	width: auto !important;
+}
+p.help {
+	margin: 0 !important;
+	padding: 0 !important;
+}

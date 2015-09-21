@@ -1,0 +1,60 @@
+.ac_results {
+	padding: 0px;
+	border: 1px solid #ccc;
+	background-color: #f6f6f6;
+	overflow: hidden;
+}
+
+.ac_results iframe {
+	display:none;/*sorry for IE5*/
+	display/**/:block;/*sorry for IE5*/
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+	filter:mask();
+	width:3000px;
+	height:3000px;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_input {
+	background-color: #eeffc0;
+	width: 350px;
+}
+
+.ac_filled_hidden {
+    background-color: #d9ff73;
+    color: black;
+}
+
+.ac_loading {
+	background : Window url("/media/img/ajax-loader.gif") right center no-repeat;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: pointer;
+	display: block;
+	width: 100%;
+	font: menu;
+	font-size: 11px;
+	overflow: hidden;
+    background-color: #f6f6f6;
+}
+
+.ac_results li.odd {
+    background-color: #EDF3FE;
+}
+
+.ac_results li.highlight{
+	background-color: #d9ff73;
+}

@@ -1,0 +1,56 @@
+{% extends super_template %}
+{% load djtools_templatetags %}
+
+{% block content %}        
+        
+<h1>Busca de Inventários</h1>
+
+{% render_form form %}
+
+<div id="resposta">
+	
+{% if inventarios %}
+
+<h1>Relatório {{ status|default:"" }} - Inventário {{ ano|default:"" }} ||
+	<a href="javascript:document.location.href=document.location.href+'&pdf=true'"><img src='/media/img/pdf_icon.jpg'/>Gerar Relatório</a>
+</h1>
+<form action="/" method="POST">
+
+    <table>
+        <thead>
+			<tr>
+            	<th>#</th>
+            	<th>Nº de Patrimonio</th>
+            	<th>Descrição Detalhada</th>
+           	    <th>Localização</th>
+            	<th>Marca</th>
+            	<th>Modelo</th>
+            	<th>Série</th>
+				<th>Status</th>
+        	</tr>
+		</thead>
+        <tbody>
+            {% for i in inventarios %}			
+                <tr class="{% cycle row1,row2 %}">                    
+                    <td align="center">{{ forloop.counter }}</td>
+                    <td>{{ i.numero_patrimonio }}</td>
+                    <td>{{ i.descricao }}</td>
+                    <td>{{ i.localizacao }}</td>
+                    <td>{{ i.marca }}</td>
+                    <td>{{ i.modelo }}</td>
+					<td>{{ i.numero_serie }}</td>
+					<td>{{ i.status }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+{% else %}
+    {% ifequal inventarios None %}
+    {% else %}
+        <p>Nenhum item encontrado.</p>
+    {% endifequal %}
+{% endif %}
+</div>
+
+{% endblock %}

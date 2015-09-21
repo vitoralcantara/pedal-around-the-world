@@ -1,0 +1,188 @@
+/* estilos comuns */
+
+.botoes {
+	position:relative;
+	background:url("../img/django/nav-bg.gif") repeat-x scroll 0 100% white;
+	border:1px solid #CCCCCC;
+	margin:5px 0;
+	overflow:hidden;
+	padding:5px 7px;
+}
+
+.botoes input {
+	margin:0;
+	padding:4px 10px;
+	cursor:pointer;
+	min-width:100px;
+}
+
+.botoes input:hover {
+	padding:4px 10px;
+	border:1px solid #AAA;
+	border-right:1px solid #DDD;
+	border-bottom:1px solid #DDD;
+	cursor:pointer;
+}
+
+.botoes a.lnk_botao {
+	position:relative;
+	display:block;
+	float:left;
+	text-align:center;
+	text-decoration:none;
+	margin-right:5px;
+	padding:5px 10px;
+	min-width:100px;
+	color:#000;
+	border:1px solid #DDD;
+	border-right:1px solid #AAA;
+	border-bottom:1px solid #AAA;
+	background:url("../img/django/nav-bg.gif") repeat-x scroll 0 100% white;
+}
+
+.botoes a.lnk_botao:hover {
+	text-decoration:none !important;
+	border:1px solid #AAA;
+	border-right:1px solid #DDD;
+	border-bottom:1px solid #DDD;
+}
+
+.invisivel, .botoes a.invisivel {
+	display:none;
+}
+
+/* centraliza os títulos das colunas de uma tabela */
+fieldset table tr th {
+	text-align:center;
+}
+
+/* estilo para formularios feitos com django.forms */
+
+#login-form table {
+    outline: 0;
+}
+
+#login-form td {
+    border: none !important;
+}
+
+form table tr.submit_row {
+    background-color: #eee;
+}
+
+form ul, form li {
+    list-style-type: none !important;
+}
+
+
+/* divform */
+
+div.form div.row {
+    overflow: hidden; width: auto;
+    padding: 4px 0px 10px 0px;
+    border-bottom: solid 1px #eee;
+}
+
+div.form div.row > div {
+    float: left;
+}
+
+div.form div.row div.input {
+	margin-right: 20px;
+}
+
+div.form div.row div.label:first-child {
+	width: 100px;
+}
+
+div.form div.row div.label label{
+	width: auto !important;
+}
+
+ul.legenda_icones {
+    margin:15px 5px;
+	color:#aaa;
+}
+
+ul.legenda_icones li {
+    list-style-type:none;
+	float:right;
+	margin:0 10px;
+}
+
+ul.legenda_icones li span {
+    margin-left:5px;
+}
+
+/* forms */
+
+form fieldset.module {
+	position:relative;
+	padding:10px 0;
+}
+form fieldset.module .form-row {
+	margin:0;  
+    padding-top:5px;
+    padding-bottom:4px;   
+}
+form fieldset.module .form-row p.help {
+    margin-left:122px;
+}
+form fieldset.module .form-row label {
+	width:150px;
+    text-align:right;
+    padding-top:5px;
+}
+form .aligned p { 
+	margin-left: 160px;
+	padding-left:0;
+}
+form fieldset.module .form-row select optgroup option {
+    margin:2px 20px;
+}
+form fieldset.module .form-row ul {
+	padding:0;
+}
+form fieldset.module .form-row ul li label {
+    text-align:left;
+    float:none;
+    margin:0;
+	padding:0;
+}
+
+/* listas do módulo frota */
+ul.lista_condutores {
+	margin:0;
+	padding:0;
+	padding-left:20px;
+}
+ul.lista_condutores li {
+	list-style-type:lower-roman;
+}
+ul#passageiros_viagem {
+    margin-top:0;
+    margin-left:120px;
+         
+}
+ul#passageiros_viagem li {
+    padding:0;
+    margin:0;
+    margin-bottom:5px;
+}
+
+/* utilizado para retirar a margem quando se pretende colocar mais de um campo na mesma linha */
+/* exemplo: colocar data inicial e final na mesma linha, mas apenas não apresentar o label do segundo campo */
+form .aligned p.help_marginless {
+	font-size:10px;
+    color:#999999;
+    padding-left:0;
+    margin-left:0;
+}
+table tr th.icon_column, td.icon_column {
+	text-align:center;
+	width:18px;
+}
+
+.monospace, .monospace option {
+	font-family: monospace;
+}

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/5/trunk/stunat/djtools/templates/registration
+END
+login.html
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/5/trunk/stunat/djtools/templates/registration/login.html
+END
+logout.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/5/trunk/stunat/djtools/templates/registration/logout.html
+END

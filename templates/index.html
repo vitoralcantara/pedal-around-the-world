@@ -1,0 +1,62 @@
+{% extends super_template %}
+
+{% load djtools_templatetags %}
+
+{% block extrastyle %}
+	<link rel="stylesheet" href="/media/css/template-index.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container" style="width: 980px">
+	
+	<div id="div-esquerda">
+		<center>
+			<br />
+			<h3>Seja Bem Vindo ao STUNat, {{ user.get_full_name }}</h3>
+		</center>
+	</div>
+    
+	<div id="div-direita">
+		
+		{% if gratuidade %}
+			<div class="div-modulo container {% ifequal current_app "gratuidade" %}active{% endifequal %}" 
+				app_name="gratuidade">
+				<div class="modulo-img" onClick="change_app('gratuidade')">
+					<img src="/media/img/gratuidade.png"/>
+				</div>
+				<div class="modulo-info">
+					<h2 onClick="change_app('gratuidade')">Gratuidade</h2>
+					{% if gratuidade.cadastro_pessoagratuidade %}
+				        <a href="/admin/gratuidade/pessoagratuidade/add">
+				        {{ gratuidade.cadastro_pessoagratuidade }}
+						</a> 
+					{% endif %}
+			         | <a href="admin/gratuidade/pessoagratuidade/">Buscar</a>
+				</div>
+			</div>
+		{% endif %}
+		
+		{% if inventario %}
+			<div class="div-modulo container {% ifequal current_app "inventario" %}active{% endifequal %}" 
+				app_name="inventario">
+				<div class="modulo-img" onClick="change_app('inventario')">
+					<img src="/media/img/inventario.png"/>
+				</div>
+				<div class="modulo-info">
+					<h2 onClick="change_app('inventario')">Inventário</h2>
+					{% if inventario.cadastro_itenspatrimoniais %}
+				        <a href="/admin/inventario/itenspatrimoniais/add">
+				        {{ inventario.cadastro_itenspatrimoniais }}
+						</a> 
+					{% endif %}
+			         | <a href="admin/inventario/itenspatrimoniais/">Buscar</a>
+					 | <a href="inventario/inventario_busca/">Relatório</a>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+
+</div>
+
+{% endblock %}

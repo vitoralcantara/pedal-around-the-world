@@ -1,0 +1,108 @@
+{# Label Input #}
+<input type="text" name="{{ name }}" id="ac_{{ id }}"
+       class="{% if value %}filled{% endif %}" current_value="" search_url="{{ url }}"
+       {% if readonly %}readonly="readonly"{% endif %} />
+
+{# Value Input #}
+<input type="{% if show_pk %}text{% else %}hidden{% endif %}" id="hidden_{{ name }}" 
+	   name="{{ name }}" value="{{ value }}" />
+
+{% if not readonly %}
+	
+	<img src="/admin-media/img/admin/icon_deletelink.gif" title="Limpar Valor" 
+         style="cursor: pointer; display: {% if value %}inline{% else %}none{% endif %}" 
+     	 onClick="clean_value($(this).prev().prev())" />
+	
+	{% if side_html %}
+	
+		{{ side_html|safe }}
+	
+	{% else %}
+	
+		{% if has_change_permission %}
+		    <!--<a href="{{ change_list_url }}" class="related-lookup"  title="Buscar..."
+	   	       id="lookup_hidden_{{ id }}" onclick="return showRelatedObjectLookupPopup(this);">
+	    	    <img src="/admin-media/img/admin/selector-search.gif" width="16" height="16" />
+	        </a>-->
+	    {% endif %}
+	
+		{% if has_add_permission %}
+			<a href="{{ add_another_url }}"  class="add-another" title="Adicionar Outro..."
+	   	   	   id="add_hidden_{{ name }}" onclick="return showAddAnotherPopup(this);">
+				<img height="10" width="10" alt="Adicionar outro" src="/admin-media/img/admin/icon_addlink.gif"/>
+			</a>
+		{% endif %}
+	
+	{% endif %}
+
+    
+
+{% endif %} {# endif not readnoly #}
+
+<script type="text/javascript">
+    // remove o label do campo
+    if ("{{ show }}"=="False")
+        $('input#ac_{{ id }}').prev().remove();
+    function afterSelect(object) {
+        set_value(object.input, object.data.data[1]);
+    }
+    function set_value(input, value) {
+        input.next().val(value);
+        input.next().next().show(); // Mostrar "limpar valor"
+        input.addClass('filled');
+        input.attr("current_value", value);
+    }
+    function clean_value(input) {
+        input.val('');
+        input.next().val('');
+        input.removeClass('filled');
+        input.next().next().hide(); // Esconder "limpar valor"
+        input.focus();
+    }
+    options = {{ options|safe }};
+    options["afterSelect"] = afterSelect;
+    $('input#ac_{{ id }}').autocomplete("{{ url }}", options);
+    $('input#ac_{{ id }}').keyup(function(){
+        if (!$(this).val().length) {
+            clean_value($(this));
+        }
+    });
+    function setValue(input_label, pk) {
+        if (input_label.attr("fetching") == "true") {
+            return;
+        }
+        input_label.attr("fetching", "true"); 
+    	$.ajax({
+    		type: "GET",
+    		url: input_label.attr("search_url"),
+    		data: "pk="+pk,
+    		success: function(data) {
+	    		input_label.val(data);
+	    		input_label.next().next("img").show();
+	        	input_label.attr("current_value", pk);
+	        	input_label.addClass("filled");
+	        	input_label.attr("fetching", "false");
+			},
+			error: function() {
+				input_label.val("");
+				input_label.next().next("img").hide();
+	        	input_label.attr("current_value", "");
+	        	input_label.removeClass("filled");
+	        	input_label.attr("fetching", "false");
+			}
+    	});
+    }
+    function check() {
+        $.each($(".ac_input"), function(index, elem) {
+            input_label = $(elem);
+            input_hidden = input_label.next();
+            if ((input_hidden.val() != "") && (input_label.attr("current_value") != input_hidden.val())) {
+            	setValue(input_label, input_hidden.val());
+            }
+        });
+    }
+    timeout = window.setInterval(check, 1000);
+</script>
+{% if help_text %}
+    <p class="help_marginless">{{ help_text }}</p>
+{% endif %}

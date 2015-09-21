@@ -1,0 +1,103 @@
+
+ul.jd_menu_slate {
+    height: 19px;
+    background-color: #666;
+#    background: url("/media/img/jquery_menu/menu_barra.png") repeat-x;
+    background-position: bottom;
+    padding-left: 10px;
+    clear: both;
+}
+
+#ul.jd_menu_vertical {
+#    width: 200px;
+#    height: auto;
+#    clear: both;
+#    background: url("/media/img/jquery_menu/gradient-vertical.png") repeat-x;
+#    background-color: #A5AFB8;
+#}
+
+
+ul.jd_menu_slate a, ul.jd_menu_slate a:active, ul.jd_menu_slate a:link, ul.jd_menu_slate a:visited {
+    font-weight: normal;
+    text-decoration: none;
+    color: #FFF;
+}
+
+ul.jd_menu_slate ul li a, ul.jd_menu_slate ul li a:active, ul.jd_menu_slate ul li a:link, 
+ul.jd_menu_slate ul li a:visited {
+    font-weight: normal;
+    color: white;
+}
+
+/*
+menu
+*/
+ul.jd_menu_slate li {
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+	padding: 2px 6px 4px 6px;
+	cursor: pointer;
+	white-space: nowrap;
+	color: #FFF;
+  list-style: none;
+}
+
+/*
+menu selecionado
+*/
+ul.jd_menu_slate li.jd_menu_active_menubar, ul.jd_menu_slate li.jd_menu_hover_menubar {
+    padding-left: 5px;
+    border-left: 1px solid #ABB5BC;
+    padding-right: 5px;
+    border-right: 1px solid #929AA1;
+    border-right: 1px solid #70777D;
+    color: #FFF;
+    height: 12px;
+#    background: url("/media/img/jquery_menu/gradient-alt2.png") repeat-x;
+    background: #999;
+}
+
+ul.jd_menu_vertical li.jd_menu_active_menubar, ul.jd_menu_vertical li.jd_menu_hover_menubar {
+    padding-left: 6px;
+    padding-top: 1px;
+    border-top: 1px solid #6493d8;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+/*
+submenu - item selecionado
+*/
+ul.jd_menu_slate ul {
+    background: #6493d8;
+    border: 1px solid #6493d8;
+}
+
+/*
+submenu
+*/
+ul.jd_menu_slate ul li {
+    padding: 3px 10px 3px 4px;
+    background: #547cb8;
+    border: none;
+    color: white;
+}
+
+/*
+submenu - item
+*/
+ul.jd_menu_slate ul li.jd_menu_active, ul.jd_menu_slate ul li.jd_menu_hover {
+#    background: url("/media/img/jquery_menu/gradient2.png") repeat-x;
+    background: #999;
+    padding-top: 2px;
+    border-top: 1px solid #6493d8;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #6493d8;	
+}
+
+/*
+submenu - item selecionado
+*/
+ul.jd_menu_slate ul li.jd_menu_active a.jd_menu_active, ul.jd_menu_slate ul li.jd_menu_hover a.jd_menu_hover {
+    color: white;
+}

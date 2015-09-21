@@ -1,0 +1,45 @@
+<ul class="ajaxmultiselect_field" {{ attrs|safe }}>
+	{% for item in items %}
+	    <li id="li_{{ name }}_{{ item.id }}">
+	    	<img src="/admin-media/img/admin/icon_deletelink.gif" class="ajaxmultiselect_remove"
+	    		onclick="remove_value(this)" title="Remover item" style="margin-right: 4px"/> 
+	    	{{ item }}
+	    	<input type="hidden" name="{{ name }}" value="{{ item.id }}"/>
+		</li>
+	{% endfor %}
+	<li id="li_{{ name }}_add">
+	    <input id="ajaxmultiselect_input_{{ name }}_add" autocomplete="off" class="ajaxmultiselect_add" type="text"/>
+	    <script type="text/javascript">
+	        AUTO_TEMP_ID_{{ name }} = '';
+	        function afterSelect(object) {
+	            AUTO_TEMP_ID_{{ name }} = object.data.data[1];
+	            append_value();
+	        }
+	        options = {{ options|safe }};
+	        options["afterSelect"] = afterSelect;
+	        $('input#ajaxmultiselect_input_{{ name }}_add').autocomplete("{{ url }}", options);
+	    </script>
+	</li>
+</ul>
+
+<script>
+    function append_value(){
+        if (!AUTO_TEMP_ID_{{ name }}) {
+            alert('O item escolhido esta invalido!');
+            return;
+        } else if (document.getElementById("li_{{ name }}_"+AUTO_TEMP_ID_{{ name }})) {
+            alert('O item escolhido ja foi adicionado!');
+            return;
+        }
+        var new_li = '<li id="li_{{ name }}_'+AUTO_TEMP_ID_{{ name }}+'">';
+	    new_li += '<img src="/admin-media/img/admin/icon_deletelink.gif" class="ajaxmultiselect_remove" onclick="remove_value(this)" title="Remover item" style="margin-right: 4px"/>';
+	    new_li += $('#ajaxmultiselect_input_{{ name }}_add').val(); 
+	    new_li += '<input type="hidden" name="{{ name }}" value="'+AUTO_TEMP_ID_{{ name }}+'"/>';
+		new_li += '</li>';
+		$("#li_{{ name }}_add").before($(new_li));
+		$('input#ajaxmultiselect_input_{{ name }}_add').val("");
+    }
+    function remove_value(img_remove) {
+        $(img_remove).parent().remove();
+    }
+</script>

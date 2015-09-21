@@ -1,0 +1,73 @@
+/* Retira as margens e espaçamentos para visualização comum entre os browser's */
+* {
+	padding:0;
+	margin:0;
+	font-size:11px;
+}
+/* seletores */
+fieldset {	
+	margin:8px 0;
+	border:1px solid #eee;
+	border-right:1px solid #bbb;
+	border-bottom:1px solid #bbb;
+}
+fieldset legend {
+	font-size:110%;
+	padding:0px 5px;
+}
+table {
+	position:realtive;
+	width:100%;
+}
+ul.cx_dados {position:relative;}
+ul.cx_dados li {
+	list-style:none;
+	margin:2px 0;
+	padding:3px 0;
+	font-weight:bold;
+}
+ul.cx_dados li span {
+	position:relative;
+	float:left;
+	width:120px;
+	font-weight:normal;
+}
+a.link_icone {
+	position:relative;
+	display:block;
+	float:right;
+	width:20px;
+	height:20px;
+	font-size:0;
+	color:#fff;
+}
+/* ids */
+#config_planejamento {
+	margin-top:-18px;
+	margin-right:5px;
+	color:#FFFFCC;
+	float:right;
+}
+#config_planejamento a {
+	font-weight:bold;
+	color:white;
+}
+
+/* classes */
+.icone_pdf { background:url("/media/img/pdf_icon.jpg") no-repeat; }
+.bck_linha_padrao { background:#eee; }
+.cx_expansivel {
+	padding:5px 0;
+	margin-bottom:7px;
+	border:0;
+	border-top:1px solid #eee;
+}
+.cx_expansivel legend {
+	padding-left:20px;
+	font-size:12px;
+	background:url("/media/img/16x16/seta_esquerda.png") no-repeat;
+	cursor:pointer;
+}
+.cx_expansivel legend:hover {
+	background:url("/media/img/16x16/seta_baixo.png") no-repeat;
+}
