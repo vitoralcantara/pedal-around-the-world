@@ -1,6 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
+*.pyc
 
 # C extensions
 *.so
@@ -55,3 +55,12 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Log de aplicacoes
+log/
+
+# demais arquivos
+comum/*.pyc
+gratuidade/*.pyc
+log/*.log
+
