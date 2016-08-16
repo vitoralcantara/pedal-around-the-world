@@ -23,6 +23,7 @@ NACIONALIDADE = (
 
 TIPO_PESSOA = (
                ('aposentado','Aposentado'),
+	       ('provisoria','Provisoria'),
                ('deficiente','Deficiente'),
                ('idoso','Idoso'),
                ('defiacom','Deficiente c/ Acompanhante')

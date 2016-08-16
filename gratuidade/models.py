@@ -33,6 +33,8 @@ class PessoaGratuidade(Pessoa):
     def _tipo_pessoa(self):
         if self.tipo == 'aposentado':
             return 'Aposentado'
+        elif self.tipo == 'provisoria':
+            return 'Provisoria'
         elif self.tipo == 'deficiente':
             return 'Deficiente'
         elif self.tipo == 'idoso':

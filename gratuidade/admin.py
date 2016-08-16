@@ -48,6 +48,8 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
     def tipagem(self, obj):
         if obj.tipo == 'aposentado':
             return 'Aposentado'
+        elif obj.tipo == 'provisoria':
+            return 'Provisoria'
         elif obj.tipo == 'deficiente':
             return 'Deficiente'
         elif obj.tipo == 'idoso':
