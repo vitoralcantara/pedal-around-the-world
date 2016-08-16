@@ -1,6 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
+*.pyc
 
 # C extensions
 *.so
@@ -62,4 +62,8 @@ log/
 # Arquivos da IDE pycharm
 .idea/
 
+# demais arquivos
+comum/*.pyc
+gratuidade/*.pyc
+log/*.log
 
