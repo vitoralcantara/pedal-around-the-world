@@ -58,3 +58,8 @@ target/
 
 # Log de aplicacoes
 log/
+
+# Arquivos da IDE pycharm
+.idea/
+
+
