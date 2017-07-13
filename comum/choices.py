@@ -22,14 +22,18 @@ NACIONALIDADE = (
 ##############
 
 TIPO_PESSOA = (
-               ('aposentado','Aposentado'),
-	       ('provisoria','Provisoria'),
-               ('deficiente','Deficiente'),
-               ('idoso','Idoso'),
-               ('defiacom','Deficiente c/ Acompanhante')
-               )
+            ('aposentado','Aposentado'),
+	        ('provisoria','Provisoria'),
+            ('deficiente','Deficiente'),
+            ('idoso','Idoso'),
+            ('defiacom',   'Deficiente c/ acompanhante'),
+            ('tratmedico', 'Trat. médico'),
+            ('tratmedacom','Trat. méd. c/ acompanhante')
+        )
 
 SITUACAO = (
             ('ativo','Ativo'),
-            ('inativo','Inativo')
-            )
+            ('inativo','Inativo'),
+            ('em análise','Em análise'),
+            ('indeferido','indeferido')
+        )

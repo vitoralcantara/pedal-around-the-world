@@ -46,16 +46,15 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
     editar.attrs = {'width': '10px'}
 
     def tipagem(self, obj):
-        if obj.tipo == 'aposentado':
-            return 'Aposentado'
-        elif obj.tipo == 'provisoria':
-            return 'Provisoria'
-        elif obj.tipo == 'deficiente':
-            return 'Deficiente'
-        elif obj.tipo == 'idoso':
-            return 'Idoso'
+        if obj.tipo == 'tratmedico':
+            return 'Trat. medico'
+        elif obj.tipo == 'tratmedacom':
+            return 'Trat. med. c/ acomp.'
         elif obj.tipo == 'defiacom':
-            return 'Deficiente c/ Acompanhante'  
+            return 'Deficiente c/ acomp.'
+        else:
+            return obj.tipo.title()
+
     tipagem.allow_tags = True
     tipagem.short_description = 'Tipo de Pessoa'
 
