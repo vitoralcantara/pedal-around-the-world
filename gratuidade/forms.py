@@ -53,7 +53,7 @@ class PessoaGratuidadeForm(forms.ModelForm):
     
     telefone = forms.CharField(label=u'Telefone', widget=BrTelefoneWidget, required=False)
     cpf = forms.CharField(label=u'CPF', widget=BRCpfWidget, required=False)
-    data_nascimento = BrDataField(label=u'Data nascimento', widget=BrDataWidget())
+    #data_nascimento = BrDataField(label=u'Data nascimento', widget=BrDataWidget())
     nacionalidade = forms.ChoiceField(label=u'Nacionalidade', widget=forms.Select(), choices=choices.NACIONALIDADE, required=False)
     estado_civil = forms.ChoiceField(label=u'Estado Civil', widget=forms.Select(), choices=choices.ESTADO_CIVIL, required=False)
     
