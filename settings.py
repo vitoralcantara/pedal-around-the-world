@@ -44,6 +44,12 @@ ADMIN_MEDIA_PREFIX = '/admin-media/'
 DJTOOLS_MEDIA_URL = '/djtools-media/'
 DJTOOLS_JQUERY_IN_SUPER_TEMPLATE = True
 
+USE_L10N = False
+DATE_FORMAT = 'd/m/Y'
+DATE_INPUT_FORMATS = (
+    '%d/%m/%Y',
+)
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '_)32c$uo491b-g2+c*rigu(wefewk7a799fb-^#22e0jix+-yq'
 
