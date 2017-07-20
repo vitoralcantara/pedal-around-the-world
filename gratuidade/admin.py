@@ -4,6 +4,7 @@ from django.contrib import admin
 from gratuidade.models import PessoaGratuidade
 from gratuidade.forms import PessoaGratuidadeForm
 from djtools.utils import rtr, httprr
+import pdb
 
 #admin.site.register(PessoaGratuidade)
 
@@ -12,7 +13,7 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
     form = PessoaGratuidadeForm
     
     search_fields = ['nome', 'numero_carteira', 'cpf', 'carteira_antigo']
-    list_display = ['editar', 'carteira','situacao', 'nome', 'cpf', 'numero_carteira', 'validade', 'tipagem']
+    list_display = ['editar', 'carteira','situacao', 'nome', 'cpf', 'numero_carteira', 'valido', 'tipagem']
     
     fieldsets = [
         ('Dados Pessoais', {'fields': ['nome', 'cpf','data_nascimento','telefone','rg', 'via_documento', 'uf','naturalidade','estado_civil','nacionalidade','nome_mae','nome_pai','email']}),
@@ -40,11 +41,22 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
     tipagem.short_description = 'Tipo de Pessoa'
 
     def carteira(self, obj):
-        return '<a href="/gratuidade/pessoagratuidade/cartao_gratuidade/%s/"><img src="/media/img/16x16/cartao_yes.png" title="Imprimir Cartão" /></a>' % (
+        if obj.situacao.upper() == "ATIVO" or obj.situacao.upper() == "INATIVO":
+            return '<a href="/gratuidade/pessoagratuidade/cartao_gratuidade/%s/"><img src="/media/img/16x16/cartao_yes.png" title="Imprimir Cartão" /></a>' % (
         obj.pk)
+        else:
+            return '<img src="/media/img/16x16/cartao_no.png" title="Sem Cartão" />'
 
     carteira.allow_tags = True
     carteira.short_description = 'Cartão'
 
+    def valido(self, obj):
+        if obj.validade:
+            return obj.validade
+        else:
+            return ""
+
+    valido.allow_tags = True
+    valido.short_description = 'Validade'
     
 admin.site.register(PessoaGratuidade, PessoaGratuidadeAdmin)
