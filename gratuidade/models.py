@@ -5,8 +5,8 @@ from comum.models import Pessoa
 from string import upper
 
 class PessoaGratuidade(Pessoa):
-    numero_carteira = models.IntegerField(u'Número da Carteira', unique=True)  
-    qtd_vale = models.IntegerField(u'Quantidade de Vales')
+    numero_carteira = models.IntegerField(u'Número da Carteira', unique=True)
+    validade = models.DateField(u'Validade')
     situacao = models.CharField(u'Situação', max_length=15)
     via_carteira = models.CharField(u'Via Carteira', max_length=2)
     tipo = models.CharField(u'Tipo de Pessoa', max_length=15)
@@ -32,9 +32,9 @@ class PessoaGratuidade(Pessoa):
     
     def _tipo_pessoa(self):
         if self.tipo == 'tratmedico':
-            return 'Trat. medico'
+            return u'Trat. médico'
         elif self.tipo == 'tratmedacom':
-            return 'Trat. med. c/ acomp.'
+            return u'Trat. méd. c/ acomp.'
         elif self.tipo == 'defiacom':
             return 'Deficiente c/ acomp.'
         else:

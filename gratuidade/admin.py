@@ -31,11 +31,11 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
     form = PessoaGratuidadeForm
     
     search_fields = ['nome', 'numero_carteira', 'cpf', 'carteira_antigo']
-    list_display = ['editar', 'carteira', 'nome', 'cpf', 'numero_carteira', 'qtd_vale', 'tipagem']  
+    list_display = ['editar', 'carteira', 'nome', 'cpf', 'numero_carteira', 'validade', 'tipagem']
     
     fieldsets = [
         ('Dados Pessoais', {'fields': ['nome', 'cpf','data_nascimento','telefone','rg', 'via_documento', 'uf','naturalidade','estado_civil','nacionalidade','nome_mae','nome_pai','email']}),
-        ('Dados da Carteira', {'fields': ['qtd_vale','situacao','via_carteira','tipo']}),
+        ('Dados da Carteira', {'fields': ['validade','situacao','via_carteira','tipo']}),
         (u'Endereço', {'fields': ['logradouro','numero','complemento','bairro','municipio','cep']}),
     ]
 
@@ -47,9 +47,9 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
 
     def tipagem(self, obj):
         if obj.tipo == 'tratmedico':
-            return 'Trat. medico'
+            return u'Trat. médico'
         elif obj.tipo == 'tratmedacom':
-            return 'Trat. med. c/ acomp.'
+            return u'Trat. méd. c/ acomp.'
         elif obj.tipo == 'defiacom':
             return 'Deficiente c/ acomp.'
         else:
