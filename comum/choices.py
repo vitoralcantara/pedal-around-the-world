@@ -32,8 +32,8 @@ TIPO_PESSOA = (
         )
 
 SITUACAO = (
-            ('ativo','Ativo'),
-            ('inativo','Inativo'),
-            ('em análise','Em análise'),
-            ('indeferido','indeferido')
+            ('ativo','ATIVO'),
+            ('inativo','INATIVO'),
+            ('em análise','EM ANÁLISE'),
+            ('indeferido','INDEFERIDO')
         )
