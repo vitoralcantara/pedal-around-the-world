@@ -55,14 +55,8 @@ class PessoaGratuidadeForm(forms.ModelForm):
         self.instance.endereco = endereco
         return super(PessoaGratuidadeForm, self).save(commit)
 
-    TESTE = (
-        ('aposentado', 'Aposentado'),
-    )
-
     tipo = forms.ChoiceField(label=u'Tipo de Pessoa', widget=forms.Select(), choices=choices.TIPO_PESSOA)
     situacao = forms.ChoiceField(label=u'Situação', widget=forms.Select(), choices=choices.SITUACAO)
-
-    #     situacao = forms.ChoiceField(label=u'Situação', widget=forms.Select(), choices=TESTE)
 
     telefone = forms.CharField(label=u'Telefone', widget=BrTelefoneWidget, required=False)
     cpf = forms.CharField(label=u'CPF', widget=BRCpfWidget, required=False)

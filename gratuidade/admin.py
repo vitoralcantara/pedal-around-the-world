@@ -4,16 +4,27 @@ from django.contrib import admin
 from gratuidade.models import PessoaGratuidade
 from gratuidade.forms import PessoaGratuidadeForm
 from djtools.utils import rtr, httprr
+from datetime import date
+from django.contrib.admin.views import main
 import pdb
 
 #admin.site.register(PessoaGratuidade)
 
+
+
+
 class PessoaGratuidadeAdmin(admin.ModelAdmin):
 
     form = PessoaGratuidadeForm
-    
+
+    def __init__(self, *args, **kwargs):
+        super(PessoaGratuidadeAdmin, self).__init__(*args, **kwargs)
+        main.EMPTY_CHANGELIST_VALUE = '-'
+
+
+
     search_fields = ['nome', 'numero_carteira', 'cpf', 'carteira_antigo']
-    list_display = ['editar', 'carteira','situacao', 'nome', 'cpf', 'numero_carteira', 'valido', 'tipagem']
+    list_display = ['editar', 'carteira','situacao', 'nome', 'cpf', 'numero_carteira', 'validade', 'tipagem']
     
     fieldsets = [
         ('Dados Pessoais', {'fields': ['nome', 'cpf','data_nascimento','telefone','rg', 'via_documento', 'uf','naturalidade','estado_civil','nacionalidade','nome_mae','nome_pai','email']}),
@@ -49,14 +60,5 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
 
     carteira.allow_tags = True
     carteira.short_description = 'Cartão'
-
-    def valido(self, obj):
-        if obj.validade:
-            return obj.validade
-        else:
-            return ""
-
-    valido.allow_tags = True
-    valido.short_description = 'Validade'
     
 admin.site.register(PessoaGratuidade, PessoaGratuidadeAdmin)
