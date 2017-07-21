@@ -26,7 +26,7 @@ class Endereco(models.Model):
 class Pessoa(models.Model):
     nome = models.CharField(u'Nome', max_length=200)
     
-    cpf = models.CharField(u'CPF', max_length=20, blank=True)
+    cpf = models.CharField(u'CPF', max_length=20, blank=True,unique=True)
     data_nascimento = models.DateField(u'Data nascimento')
     nacionalidade = models.CharField(u'Nacionalidade', max_length=40, blank=True)
     estado_civil = models.CharField(u'Estado Civil', max_length=20, blank=True)

@@ -24,7 +24,7 @@ class PessoaForm(forms.ModelForm):
     class Meta:
         model = Pessoa
         
-    cpf = forms.CharField(label=u'CPF', widget=BRCpfWidget, required=False)
+    #cpf = forms.CharField(label=u'CPF', widget=BRCpfWidget, required=True)
     data_nascimento = BrDataField(label=u'Data nascimento', widget=BrDataWidget())
     nacionalidade = forms.ChoiceField(label=u'Nacionalidade', widget=forms.Select(), choices=choices.NACIONALIDADE, required=False)
     estado_civil = forms.ChoiceField(label=u'Estado Civil', widget=forms.Select(), choices=choices.ESTADO_CIVIL, required=False)
