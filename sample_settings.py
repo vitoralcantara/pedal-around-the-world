@@ -4,7 +4,7 @@ from os.path import abspath, dirname
 
 PROJECT_PATH = abspath(dirname(__file__))
 PROJECT_NAME = PROJECT_PATH.split('/')[-1]
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

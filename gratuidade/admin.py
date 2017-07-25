@@ -10,9 +10,6 @@ import pdb
 
 #admin.site.register(PessoaGratuidade)
 
-
-
-
 class PessoaGratuidadeAdmin(admin.ModelAdmin):
 
     form = PessoaGratuidadeForm

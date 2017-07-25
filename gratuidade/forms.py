@@ -66,7 +66,7 @@ class PessoaGratuidadeForm(forms.ModelForm):
     estado_civil = forms.ChoiceField(label=u'Estado Civil', widget=forms.Select(), choices=choices.ESTADO_CIVIL,
                                      required=False)
 
-    validade = BrDataField(label=u'Validade', widget=BrDataWidget())
+    validade = BrDataField(label=u'Validade', widget=BrDataWidget(),required=False)
 
     logradouro = forms.CharField(label=u'Logradouro')
     numero = forms.CharField(label=u'Número', required=False)
