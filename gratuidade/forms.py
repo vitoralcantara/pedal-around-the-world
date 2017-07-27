@@ -17,6 +17,7 @@ from comum import choices
 class PessoaGratuidadeForm(forms.ModelForm):
     class Meta:
         model = PessoaGratuidade
+        jaAtivo = False
 
     def __init__(self, *args, **kwargs):
         super(PessoaGratuidadeForm, self).__init__(*args, **kwargs)
@@ -37,9 +38,13 @@ class PessoaGratuidadeForm(forms.ModelForm):
             self.fields['situacao'].widget.attrs['readonly'] = True
 
     def save(self, commit=True, force_insert=False, force_update=False):
-        if self.instance.pk and self.cleaned_data['situacao'] != u'EM ANÁLISE' and self.cleaned_data['situacao'] != 'INDEFERIDO':
+        if self.instance.pk and self.cleaned_data['situacao'] != u'EM ANÁLISE' \
+                            and self.cleaned_data['situacao'] != 'INDEFERIDO'  \
+                            and not self.instance.numero_carteira:
+
             last_val = PessoaGratuidade.objects.aggregate(Max('numero_carteira'))
             self.instance.numero_carteira = last_val['numero_carteira__max'] + 1
+            print "imprimiu!"
 
         if self.instance.endereco_id is None:
             endereco = Endereco.objects.create()

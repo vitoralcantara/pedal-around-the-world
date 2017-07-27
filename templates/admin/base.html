@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
-<title>{% block title %}STUNat - Sistema de Trens Urbanos de Natal{% endblock %}</title>
-<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% load adminmedia %}{% admin_media_prefix %}css/base.css{% endblock %}" />
-{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% admin_media_prefix %}css/rtl.css{% endblock %}" />{% endif %}
+	<title>{% block title %}STUNat - Sistema de Trens Urbanos de Natal{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% load adminmedia %}{% admin_media_prefix %}css/base.css{% endblock %}" />
+	{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% admin_media_prefix %}css/rtl.css{% endblock %}" />{% endif %}
 
-{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+	{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
 
 	{% if user.is_authenticated %}
 	<link type="text/css" rel="stylesheet" href="/admin-media/css/forms.css" />
@@ -28,9 +28,9 @@
 	<script type="text/javascript" src="/media/jdmenu/jquery.jdMenu.js"></script>
 	<link rel="stylesheet" href="/media/jdmenu/jquery.jdMenu.css" type="text/css" />
 
-    {# jQuery autocomplete #}
-    <link type="text/css" rel="stylesheet" href="/media/css/jquery.autocomplete.css" />
-    <script type="text/javascript" src="/media/js/jquery.autocomplete.js"></script>
+	{# jQuery autocomplete #}
+	<link type="text/css" rel="stylesheet" href="/media/css/jquery.autocomplete.css" />
+	<script type="text/javascript" src="/media/js/jquery.autocomplete.js"></script>
 
 	{# Arquivos globais #}
 	<script type="text/javascript" src="/media/js/suap.basico.js"></script>
@@ -40,11 +40,11 @@
 	<script type="text/javascript" src="/media/js/validation.js"></script><!-- RETIRAR! -->
 	<script type="text/javascript" src="/media/js/validacao.js"></script><!-- RETIRAR! -->
 
-    <link type="text/css" rel="stylesheet" href="/media/css/forms.css" />
+	<link type="text/css" rel="stylesheet" href="/media/css/forms.css" />
 	<link type="text/css" rel="stylesheet" href="/media/css/estilo.css" />
 	<link type="text/css" rel="stylesheet" href="/media/css/suap.basico.css" />
-    {# O correto seria fazer outro template para que as páginas internas usem este css #}
-	
+	{# O correto seria fazer outro template para que as páginas internas usem este css #}
+
 	<script type="text/javascript">
 	
 	change_app = function(app_label) {
@@ -77,11 +77,11 @@
 	{% block js %}{% endblock %}
 	
 	</script>
-	
+
 	{% if form %}
-		{{ form.media }}
+	{{ form.media }}
 	{% endif %}
-	
+
 	{% block extrastyle %}{% endblock %}
 	{% block extrahead %}{% endblock %}
 	{% block head %}{% endblock %}
@@ -95,39 +95,39 @@
 
 	<!-- Header -->
 	<div id="header" {% if debug %}class="debug"{% endif %}>
-		
+
 		<div id="branding">
-		{% block branding %}
+			{% block branding %}
 			<a href="/">
 				<h1 id="site-name" >STUNat {% if debug %}[DEBUG]{% endif %}</h1>
 			</a>
-		{% endblock %}
+			{% endblock %}
 		</div>
-	    {% if not is_popup %}	
+		{% if not is_popup %}
 		{% if user.is_authenticated %}
-			<div id="user-tools">
-				Olá 
-				<strong>
-					{{ user.first_name|default:user.username }}
-				</strong>
-				|
-				{% block userlinks %}
-					Módulo:
-					<select name="current_app" onchange="change_app($(this).val())">
-						<option value="home">Início</option>
-						{% for app_label, app_name in allowed_apps_choices %}
-							<option value="{{ app_label }}" {% ifequal current_app app_label %} selected="selected" {% endifequal %}>
-								{{ app_name }}
-							</option>
-						{% endfor %}
-					</select> |
-					{% if user.is_superuser %}
-						<a href="/admin/">Administração</a> | 
-					{% endif %}
-					<a href="/accounts/logout/">Encerrar Sessão</a>
-				{% endblock %}
-		
-			</div>
+		<div id="user-tools">
+			Olá
+			<strong>
+				{{ user.first_name|default:user.username }}
+			</strong>
+			|
+			{% block userlinks %}
+			Módulo:
+			<select name="current_app" onchange="change_app($(this).val())">
+				<option value="home">Início</option>
+				{% for app_label, app_name in allowed_apps_choices %}
+				<option value="{{ app_label }}" {% ifequal current_app app_label %} selected="selected" {% endifequal %}>
+					{{ app_name }}
+				</option>
+				{% endfor %}
+			</select> |
+			{% if user.is_superuser %}
+			<a href="/admin/">Administração</a> |
+			{% endif %}
+			<a href="/accounts/logout/">Encerrar Sessão</a>
+			{% endblock %}
+
+		</div>
 		{% endif %}
 		{% endif %}
 		{% block nav-global %}{% endblock %}
@@ -141,33 +141,33 @@
 	{% endif %}
 	{# Somente o usuario admin verá o breadcrumbs por enquanto #}
 	{% if user.is_superuser and not user.get_profile %}
-		{% block breadcrumbs %}
-			<div class="breadcrumbs">
-				<a href="/">Início</a>
-				{% if title %} &rsaquo; {{ title|escape }}{% endif %}
-			</div>
-		{% endblock %}
+	{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="/">Início</a>
+		{% if title %} &rsaquo; {{ title|escape }}{% endif %}
+	</div>
+	{% endblock %}
 	{% endif %}
-		
-		{# mensagens de sucesso #}
-		{% if messages %}
-		<ul class="messagelist">
-			{% for message in messages %}
-				<li>{{ message|safe }}</li>
-			{% endfor %}
-		</ul>
-		{% endif %}
 
-<!--	
-		{# erros de validação #}
-		<p class="errornote" 
-		   {% if error_message %}{% else %} style="display: none" {% endif %}>{{ error_message }}
-		</p>
--->
+	{# mensagens de sucesso #}
+	{% if messages %}
+	<ul class="messagelist">
+		{% for message in messages %}
+		<li>{{ message|safe }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+	<!--
+            {# erros de validação #}
+            <p class="errornote"
+               {% if error_message %}{% else %} style="display: none" {% endif %}>{{ error_message }}
+            </p>
+    -->
 
 	<!-- Content -->
 	<div id="content" class="{% block coltype %}colM{% endblock %}">
-		
+
 		{% block pretitle %}{% endblock %}
 		{% block content_title %}{% if title %}<h1>{{ title|escape }}</h1>{% endif %}{% endblock %}
 		{% block content %}
@@ -179,11 +179,11 @@
 	</div>
 	<!-- END Content -->
 
-{% block footer %}
-    <div id="footer">
+	{% block footer %}
+	<div id="footer">
 		<!-- TI/CBTU badge -->
-        <a href="http://www.cbtu.gov.br/operadoras/sites/menuprincnat.htm">
-        	<img src="/media/img/cbtu.png" border="0" alt="TI/CBTU" title="Desenvolvido pelo TI/CBTU" />
+		<a href="http://www.cbtu.gov.br/operadoras/sites/menuprincnat.htm">
+			<img src="/media/img/cbtu.png" border="0" alt="TI/CBTU" title="Desenvolvido pelo TI/CBTU" />
 		</a>
 
 		<!-- Django badge -->
@@ -197,8 +197,8 @@
 			<img src='http://sfx-images.mozilla.org/firefox/3.6/80x15_square_blue.png' alt='Spread Firefox Affiliate Button' border='0' />
 			</a>
 		-->
-    </div>
-{% endblock %}
+	</div>
+	{% endblock %}
 </div>
 <!-- END Container -->
 
