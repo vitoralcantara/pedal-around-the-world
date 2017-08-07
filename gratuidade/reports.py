@@ -2,8 +2,6 @@
 
 import os
 
-cur_dir = os.path.dirname(os.path.abspath(__file__))
-
 from geraldo import Image
 from geraldo import Report, ReportBand, ObjectValue, landscape, SystemField
 from reportlab.lib.units import cm
@@ -19,6 +17,7 @@ class CarteiraGratuidadePDF(Report):
     page_size = landscape(A4)
 
     class band_detail(ReportBand):
+        cur_dir = os.path.dirname(os.path.abspath(__file__))
         cur_dir += '/img/'
         elements = (
             Image(left=1.75 * cm, top=0.5 * cm, filename=os.path.join(cur_dir, 'carteira2017.png')),
