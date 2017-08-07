@@ -39,3 +39,11 @@ class PessoaGratuidade(Pessoa):
             return 'Deficiente c/ acomp.'
         else:
             return self.tipo.title()
+
+class CarteirasAntigas(models.Model):
+    pessoa_id = models.ForeignKey(PessoaGratuidade,on_delete=models.CASCADE)
+    numero_carteira = models.IntegerField(u'Número da Carteira')
+
+    class Meta:
+        unique_together = (("pessoa_id","numero_carteira"),)
+

@@ -5,7 +5,7 @@ from djtools.formfields import BrDataField, BrCepField
 from djtools.formwidgets import BRCpfWidget, BrDataWidget, BrTelefoneWidget
 from django.db.models import Max
 
-from gratuidade.models import PessoaGratuidade
+from gratuidade.models import PessoaGratuidade, CarteirasAntigas
 from comum.models import Endereco
 from comum import choices
 import datetime, pdb
@@ -61,8 +61,17 @@ class PessoaGratuidadeForm(forms.ModelForm):
         if self.instance.pk and self.cleaned_data['situacao'] != u'EM ANÁLISE' \
                             and self.cleaned_data['situacao'] != 'INDEFERIDO'  \
                             and not self.instance.numero_carteira:
-
             self.instance.numero_carteira = self.calculateNextCardNumber
+
+        elif self.instance.pk \
+            and (self.cleaned_data['situacao'] == u'EM ANÁLISE' or self.cleaned_data['situacao'] == 'INDEFERIDO') \
+            and self.instance.numero_carteira:
+            #pdb.set_trace()
+            c_antiga = CarteirasAntigas()
+            c_antiga.pessoa_id = self.instance
+            c_antiga.numero_carteira = self.instance.numero_carteira
+            c_antiga.save()
+            self.instance.numero_carteira = None
 
         if self.instance.endereco_id is None:
             endereco = Endereco.objects.create()
