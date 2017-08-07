@@ -8,6 +8,7 @@ from django.db.models import Max
 from gratuidade.models import PessoaGratuidade
 from comum.models import Endereco
 from comum import choices
+import datetime, pdb
 
 
 ##############
@@ -37,14 +38,31 @@ class PessoaGratuidadeForm(forms.ModelForm):
             self.fields['situacao'].initial = u'EM ANÁLISE'
             self.fields['situacao'].widget.attrs['readonly'] = True
 
+    @staticmethod
+    def get_card_suffix(prefix,val):
+        #pdb.set_trace()
+        # type: (str, str) -> str
+        if val.startswith(prefix):
+            return val[len(prefix):] #retornando apenas o que vier depois do prefixo
+        else:
+            return "0"
+
+    @property
+    def calculateNextCardNumber(self):
+        last_val = PessoaGratuidade.objects.raw
+        ('select 1 as pessoa_ptr_id,max(numero_carteira) from gratuidade_pessoagratuidade')[0].max
+        this_year = datetime.datetime.now().year
+        suffix_str = self.get_card_suffix(str(this_year),str(last_val))
+        new_suffix = int(suffix_str) + 1
+        new_val = int(str(this_year) + str(new_suffix))
+        return new_val
+
     def save(self, commit=True, force_insert=False, force_update=False):
         if self.instance.pk and self.cleaned_data['situacao'] != u'EM ANÁLISE' \
                             and self.cleaned_data['situacao'] != 'INDEFERIDO'  \
                             and not self.instance.numero_carteira:
 
-            last_val = PessoaGratuidade.objects.aggregate(Max('numero_carteira'))
-            self.instance.numero_carteira = last_val['numero_carteira__max'] + 1
-            print "imprimiu!"
+            self.instance.numero_carteira = self.calculateNextCardNumber
 
         if self.instance.endereco_id is None:
             endereco = Endereco.objects.create()

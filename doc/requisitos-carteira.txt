@@ -1,6 +1,6 @@
 -- Requisitos para Carteira (stunat)
 python 2.6
-django 1.3
+django 1.3.7
 reportlab2.7
 psyco2
 libapache2-mod-wsgi
