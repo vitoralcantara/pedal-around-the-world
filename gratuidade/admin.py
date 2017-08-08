@@ -21,7 +21,7 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
 
 
     search_fields = ['nome', 'numero_carteira', 'cpf', 'carteira_antigo']
-    list_display = ['editar', 'carteira','situacao', 'nome', 'cpf', 'numero_carteira', 'validade', 'tipagem']
+    list_display = ['editar', 'carteira','situacao', 'nome', 'cpf', 'num_carteira', 'validade', 'tipagem']
     
     fieldsets = [
         ('Dados Pessoais', {'fields': ['nome', 'cpf','data_nascimento','telefone','rg', 'via_documento', 'uf','naturalidade','estado_civil','nacionalidade','nome_mae','nome_pai','email']}),
@@ -34,6 +34,7 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
     editar.allow_tags = True
     editar.short_description = 'Editar'
     #editar.attrs = {'width': '1px'}
+
 
     def tipagem(self, obj):
         if obj.tipo == 'tratmedico':
@@ -57,5 +58,14 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
 
     carteira.allow_tags = True
     carteira.short_description = 'Cartão'
-    
+
+    def num_carteira(self,obj):
+        return obj.numero_carteira
+    num_carteira.admin_order_field = 'numero_carteira'
+    num_carteira.short_description = 'Carteira'
+
+
+
+
+
 admin.site.register(PessoaGratuidade, PessoaGratuidadeAdmin)
