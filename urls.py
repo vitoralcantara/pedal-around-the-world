@@ -15,7 +15,10 @@ urlpatterns = patterns('',
     
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': settings.PROJECT_PATH + '/media'}),
-        
+
+    (r'^admin-media/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': settings.PROJECT_PATH + '/admin-media'}),
+
     (r'^djtools-media/(?P<path>.*)$', 'django.views.static.serve', 
         {'document_root': settings.PROJECT_PATH + '/djtools/media/'}),
 )

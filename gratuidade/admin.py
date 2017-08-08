@@ -22,7 +22,7 @@ class PessoaGratuidadeAdmin(admin.ModelAdmin):
 
     search_fields = ['nome', 'numero_carteira', 'cpf', 'carteira_antigo']
     list_display = ['editar', 'carteira','situacao', 'nome', 'cpf', 'num_carteira', 'validade', 'tipagem']
-    
+
     fieldsets = [
         ('Dados Pessoais', {'fields': ['nome', 'cpf','data_nascimento','telefone','rg', 'via_documento', 'uf','naturalidade','estado_civil','nacionalidade','nome_mae','nome_pai','email']}),
         ('Dados da Carteira', {'fields': ['validade','situacao','via_carteira','tipo']}),

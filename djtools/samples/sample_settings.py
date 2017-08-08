@@ -32,7 +32,7 @@ USE_I18N = True
 
 MEDIA_ROOT = PROJECT_ROOT + 'media/'
 MEDIA_URL = '/media/'
-ADMIN_MEDIA_PREFIX = '/admin_media/'
+ADMIN_MEDIA_PREFIX = '/admin-media/'
 DJTOOLS_MEDIA_URL = '/djtools_media/'
 
 # Make this unique, and don't share it with anybody.
