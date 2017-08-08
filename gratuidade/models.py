@@ -43,6 +43,7 @@ class PessoaGratuidade(Pessoa):
 class CarteirasAntigas(models.Model):
     pessoa_id = models.ForeignKey(PessoaGratuidade,on_delete=models.CASCADE)
     numero_carteira = models.IntegerField(u'Número da Carteira')
+    data_desativada = models.DateField(u'Data expirada')
 
     class Meta:
         unique_together = (("pessoa_id","numero_carteira"),)

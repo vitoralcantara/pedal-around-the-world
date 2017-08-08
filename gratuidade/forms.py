@@ -66,10 +66,12 @@ class PessoaGratuidadeForm(forms.ModelForm):
         elif self.instance.pk \
             and (self.cleaned_data['situacao'] == u'EM ANÁLISE' or self.cleaned_data['situacao'] == 'INDEFERIDO') \
             and self.instance.numero_carteira:
-            #pdb.set_trace()
+
             c_antiga = CarteirasAntigas()
             c_antiga.pessoa_id = self.instance
             c_antiga.numero_carteira = self.instance.numero_carteira
+            pdb.set_trace()
+            c_antiga.data_desativada = datetime.datetime.now()
             c_antiga.save()
             self.instance.numero_carteira = None
 
