@@ -49,8 +49,8 @@ class PessoaGratuidadeForm(forms.ModelForm):
 
     @property
     def calculateNextCardNumber(self):
-        last_val = PessoaGratuidade.objects.raw
-        ('select 1 as pessoa_ptr_id,max(numero_carteira) from gratuidade_pessoagratuidade')[0].max
+        cmd_res = PessoaGratuidade.objects.raw('select 1 as pessoa_ptr_id,max(numero_carteira) from gratuidade_pessoagratuidade')
+        last_val = cmd_res[0].max
         this_year = datetime.datetime.now().year
         suffix_str = self.get_card_suffix(str(this_year),str(last_val))
         new_suffix = int(suffix_str) + 1
