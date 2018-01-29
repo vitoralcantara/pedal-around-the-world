@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # Django settings for stunat project.
 from os.path import abspath, dirname
+import pdb
 
 PROJECT_PATH = abspath(dirname(__file__))
-PROJECT_NAME = PROJECT_PATH.split('/')[-1]
+PROJECT_NAME = PROJECT_PATH.split('\\')[-1]
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -14,7 +15,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'postgresql_psycopg2'         # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'stunat-dev'                    # Or path to database file if using sqlite3.
+DATABASE_NAME = 'stunat'                        # Or path to database file if using sqlite3.
 DATABASE_USER = 'postgres'                      # Not used with sqlite3.
 DATABASE_PASSWORD = 'postgres'                  # Not used with sqlite3.
 DATABASE_HOST = 'localhost'                     # Set to empty string for localhost. Not used with sqlite3.
@@ -43,12 +44,6 @@ ADMIN_MEDIA_PREFIX = '/admin-media/'
 # Djtools Media e JQuery
 DJTOOLS_MEDIA_URL = '/djtools-media/'
 DJTOOLS_JQUERY_IN_SUPER_TEMPLATE = True
-
-#USE_L10N = False
-DATE_FORMAT = 'd/m/Y'
-DATE_INPUT_FORMATS = (
-    '%d/%m/%Y',
-)
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '_)32c$uo491b-g2+c*rigu(wefewk7a799fb-^#22e0jix+-yq'
@@ -101,7 +96,7 @@ INSTALLED_APPS = (
     'comum',
     'gratuidade',
     # EM PRODUÇÃO
-    'inventario',    
+#    'inventario',
 )
 
 # Nome de referencia para os modulos

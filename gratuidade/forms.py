@@ -47,9 +47,10 @@ class PessoaGratuidadeForm(forms.ModelForm):
         else:
             return "0"
 
-    @property
-    def calculateNextCardNumber(self):
-        cmd_res = PessoaGratuidade.objects.raw('select 1 as pessoa_ptr_id,max(numero_carteira) from gratuidade_pessoagratuidade')
+    @property #esta função retorna o próximo número de carteira gerado. Ele é crescente, sendo no padrão XXXX+Y, onde X é o ano e Y é um número crescente
+    def calculate_next_card_number(self):
+        # Este comando busca o maior numero de carteira do ano atual
+        cmd_res = PessoaGratuidade.objects.raw("select 1 as pessoa_ptr_id, max(numero_carteira) from gratuidade_pessoagratuidade where cast(numero_carteira as varchar(255)) like (trim(cast(date_part('year',now()) as varchar(255))) || '%%')")
         last_val = cmd_res[0].max
         this_year = datetime.datetime.now().year
         suffix_str = self.get_card_suffix(str(this_year),str(last_val))
@@ -58,10 +59,11 @@ class PessoaGratuidadeForm(forms.ModelForm):
         return new_val
 
     def save(self, commit=True, force_insert=False, force_update=False):
+
         if self.instance.pk and self.cleaned_data['situacao'] != u'EM ANÁLISE' \
                             and self.cleaned_data['situacao'] != 'INDEFERIDO'  \
                             and not self.instance.numero_carteira:
-            self.instance.numero_carteira = self.calculateNextCardNumber
+            self.instance.numero_carteira = self.calculate_next_card_number
 
         elif self.instance.pk \
             and (self.cleaned_data['situacao'] == u'EM ANÁLISE' or self.cleaned_data['situacao'] == 'INDEFERIDO') \
@@ -70,7 +72,7 @@ class PessoaGratuidadeForm(forms.ModelForm):
             c_antiga = CarteirasAntigas()
             c_antiga.pessoa_id = self.instance
             c_antiga.numero_carteira = self.instance.numero_carteira
-            pdb.set_trace()
+
             c_antiga.data_desativada = datetime.datetime.now()
             c_antiga.save()
             self.instance.numero_carteira = None
