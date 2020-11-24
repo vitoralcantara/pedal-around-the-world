@@ -1,9 +1,0 @@
-- Configurar envio de email de erros via gmail
-- Configurar templates 400.html e 500.html
-- Permitir mensagens para usuários anônimos
-- Automatizar/Documentar deploy com wsgi
-	apt-get install libapache2-mod-wsgi
-	ln -s /usr/lib/python2.5/site-packages/django/contrib/admin/media admin-media
-- Automatizar cópia de djtools/media para project/media
-- Automatizar cópia de djtools/templates para project/templates (login.html)
-- Automatizar dump do banco de dados
