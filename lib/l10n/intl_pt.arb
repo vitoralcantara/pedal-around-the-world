@@ -1,0 +1,16 @@
+{
+  "@@locale": "pt",
+  "@@last_modified": "2020-10-05T13:53:17.625602",
+  "gratuity": "Gratuidade",
+  "@gratuity": {
+    "description": "gratuity description",
+    "type": "text",
+    "placeholders": {}
+  },
+  "timetable": "HORÁRIOS",
+  "@timetable": {
+    "description": "timetable description",
+    "type": "text",
+    "placeholders": {}
+  }
+}
