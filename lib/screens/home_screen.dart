@@ -339,8 +339,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       children: [
         TileLayer(
-            urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c']),
+            urlTemplate: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+            subdomains: ['a', 'b', 'c', 'd'],
+            userAgentPackageName: 'com.vitoralcantara.pedal_around_the_world'),
         // Mostrar rotas salvas selecionadas
         ..._selectedRouteIds.map((routeId) {
           final index = _savedRoutes.indexWhere((r) => r.id == routeId);
