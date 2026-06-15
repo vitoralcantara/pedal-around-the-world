@@ -4,6 +4,7 @@ import "package:latlong2/latlong.dart" as latLng;
 import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/scheduler.dart';
+import 'dart:async';
 import '../services/location_service.dart';
 import '../services/database_service.dart';
 import '../services/preferences_service.dart';
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late LocationService _locationService;
   final MapController _mapController = MapController();
+  StreamSubscription<Position>? _positionStreamSubscription; // Para posição atual
   List<latLng.LatLng> _currentRoute = [];
   List<bike_route.Route> _savedRoutes = [];
   Map<int, List<latLng.LatLng>> _savedRoutePoints = {};
@@ -29,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = true;
   bool _followUserLocation = true; // Se deve seguir automaticamente a posição
   bool _isMapReady = false; // Flag para saber quando o mapa está pronto
+  latLng.LatLng? _currentPosition; // Posição atual para o marcador
 
   @override
   void initState() {
@@ -41,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await _loadSavedRoutes();
     await _loadPreferences();
     await _getCurrentLocationAndCenter();
+    _startLocationTracking(); // Inicia rastreamento contínuo de posição
     setState(() {
       _isLoading = false;
     });
@@ -251,6 +255,40 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _startLocationTracking() async {
+    // Inicia rastreamento contínuo de posição para o marcador atual
+    try {
+      final hasPermission = await _checkLocationPermission();
+      if (!hasPermission) return;
+
+      _positionStreamSubscription = Geolocator.getPositionStream(
+        locationSettings: AppleSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 10, // Atualiza a cada 10 metros
+        ),
+      ).listen((Position position) {
+        setState(() {
+          _currentPosition = latLng.LatLng(position.latitude, position.longitude);
+        });
+
+        // Seguir automaticamente se estiver habilitado
+        if (_followUserLocation && _isMapReady) {
+          _mapController.move(
+            latLng.LatLng(position.latitude, position.longitude),
+            16.0,
+          );
+        }
+      });
+    } catch (e) {
+      print('Erro ao iniciar rastreamento de posição: $e');
+    }
+  }
+
+  void _stopLocationTracking() {
+    _positionStreamSubscription?.cancel();
+    _positionStreamSubscription = null;
+  }
+
   Future<void> _loadSavedRoutes() async {
     try {
       final routes = await DatabaseService.instance.getAllRoutes();
@@ -424,6 +462,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _locationService.dispose();
+    _stopLocationTracking();
     super.dispose();
   }
 
@@ -565,6 +604,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 points: _currentRoute,
                 color: Colors.black,
                 strokeWidth: 4.0,
+              ),
+            ],
+          ),
+        // Marcador da posição atual (sempre visível)
+        if (_currentPosition != null)
+          MarkerLayer(
+            markers: [
+              Marker(
+                width: 30.0,
+                height: 30.0,
+                point: _currentPosition!,
+                child: Container(
+                  child: Icon(
+                    Icons.my_location,
+                    color: Colors.red,
+                    size: 30,
+                  ),
+                ),
               ),
             ],
           ),
