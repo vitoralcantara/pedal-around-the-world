@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late LocationService _locationService;
   final MapController _mapController = MapController();
+  final GlobalKey _mapKey = GlobalKey(); // Para acessar o widget do mapa
   StreamSubscription<Position>? _positionStreamSubscription; // Para posição atual
   List<latLng.LatLng> _currentRoute = [];
   List<bike_route.Route> _savedRoutes = [];
@@ -299,21 +300,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _initializeMap() {
     if (!_mapInitialized && _isMapReady) {
-      // Usar um delay maior para garantir que o mapa esteja completamente renderizado
-      Future.delayed(Duration(milliseconds: 500), () {
+      // Usar um delay para garantir que o mapa esteja completamente renderizado
+      Future.delayed(Duration(milliseconds: 300), () {
         if (mounted && !_mapInitialized) {
           setState(() {
             _mapInitialized = true;
           });
 
-          // Forçar o mapa a redesenhar para carregar os tiles
+          // Tentar simular um toque no mapa para forçar o carregamento
           try {
+            // Forçar atualização movendo o mapa ligeiramente
             final center = _mapController.camera.center;
             final zoom = _mapController.camera.zoom;
-            _mapController.move(center, zoom);
             
-            // Forçar atualização do estado após mover
-            setState(() {});
+            // Move um pouco e volta
+            _mapController.move(
+              latLng.LatLng(center.latitude + 0.0001, center.longitude),
+              zoom,
+            );
+            
+            Future.delayed(Duration(milliseconds: 100), () {
+              if (mounted) {
+                _mapController.move(center, zoom);
+              }
+            });
           } catch (e) {
             print('Erro ao inicializar mapa: $e');
           }
@@ -577,6 +587,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildMap() {
     return FlutterMap(
+      key: _mapKey,
       mapController: _mapController,
       options: MapOptions(
         initialCenter: latLng.LatLng(51.5, -0.09),
