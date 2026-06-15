@@ -42,7 +42,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>O app precisa da sua localização para registrar seus percursos de bicicleta</string>
+	<string>O app precisa da sua localização para registrar seus percursos de bicicleta e mostrar sua posição no mapa</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>O app precisa acessar sua localização em segundo plano para registrar percursos completos de bicicleta</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

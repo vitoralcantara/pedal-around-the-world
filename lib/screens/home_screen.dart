@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import "package:latlong2/latlong.dart" as latLng;
 import 'package:geolocator/geolocator.dart';
+import 'package:app_settings/app_settings.dart';
 import '../services/location_service.dart';
 import '../services/database_service.dart';
 import '../services/preferences_service.dart';
@@ -78,24 +79,143 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _getCurrentLocationAndCenter() async {
     try {
-      final position = await _locationService.getLastKnownPosition();
-      if (position != null) {
-        _mapController.move(
-          latLng.LatLng(position.latitude, position.longitude),
-          15.0,
+      // Verificar permissões primeiro
+      bool hasPermission = await _checkLocationPermission();
+      if (!hasPermission) {
+        print('Sem permissão de localização');
+        setState(() {
+          _statusMessage = 'É necessário permitir acesso à localização';
+        });
+        return;
+      }
+
+      // Tentar obter posição atual com timeout (usando a nova API)
+      try {
+        final currentPosition = await Geolocator.getCurrentPosition(
+          locationSettings: AppleSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: Duration(seconds: 10),
+          ),
         );
-      } else {
-        // Se não tem última posição conhecida, tenta obter posição atual
-        final currentPosition = await Geolocator.getCurrentPosition();
+        
+        print('Posição obtida: ${currentPosition.latitude}, ${currentPosition.longitude}');
         _mapController.move(
           latLng.LatLng(currentPosition.latitude, currentPosition.longitude),
-          15.0,
+          16.0,
         );
+        setState(() {
+          _statusMessage = 'Localização obtida com sucesso';
+        });
+      } catch (e) {
+        print('Timeout ao obter posição atual, tentando última posição conhecida: $e');
+        
+        // Fallback para última posição conhecida
+        final lastPosition = await _locationService.getLastKnownPosition();
+        if (lastPosition != null) {
+          print('Última posição conhecida: ${lastPosition.latitude}, ${lastPosition.longitude}');
+          _mapController.move(
+            latLng.LatLng(lastPosition.latitude, lastPosition.longitude),
+            16.0,
+          );
+          setState(() {
+            _statusMessage = 'Usando última posição conhecida';
+          });
+        } else {
+          print('Nenhuma posição disponível, mantendo posição padrão');
+          setState(() {
+            _statusMessage = 'Não foi possível obter sua localização';
+          });
+        }
       }
     } catch (e) {
-      print('Erro ao obter posição atual: $e');
-      // Se falhar, mantém a posição padrão (Londres)
+      print('Erro geral ao obter posição: $e');
+      setState(() {
+        _statusMessage = 'Erro ao obter localização: $e';
+      });
     }
+  }
+
+  Future<bool> _checkLocationPermission() async {
+    // Verificar se serviço de localização está habilitado
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print('Serviço de localização desabilitado');
+      // Oferecer abrir configurações
+      _showLocationServiceDisabledDialog();
+      return false;
+    }
+
+    // Verificar permissões
+    LocationPermission permission = await Geolocator.checkPermission();
+    
+    if (permission == LocationPermission.denied) {
+      print('Permissão negada, solicitando...');
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print('Permissão negada pelo usuário');
+        return false;
+      }
+    }
+    
+    if (permission == LocationPermission.deniedForever) {
+      print('Permissão negada permanentemente');
+      // Oferecer abrir configurações do sistema
+      _showOpenSettingsDialog();
+      return false;
+    }
+    
+    if (permission == LocationPermission.whileInUse) {
+      print('Permissão concedida: enquanto em uso');
+    }
+    
+    print('Permissão concedida: $permission');
+    return true;
+  }
+
+  void _showLocationServiceDisabledDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Serviço de Localização Desativado'),
+        content: Text('O serviço de localização está desativado. Para usar o app, você precisa ativar o serviço de localização.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              AppSettings.openAppSettings();
+            },
+            child: Text('Abrir Configurações'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showOpenSettingsDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Permissão de Localização'),
+        content: Text('A permissão de localização foi negada permanentemente. Para usar o app, você precisa permitir o acesso à localização nas configurações do sistema.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              AppSettings.openAppSettings();
+            },
+            child: Text('Abrir Configurações'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _toggleFollowLocation() {
@@ -303,7 +423,11 @@ class _HomeScreenState extends State<HomeScreen> {
               _followUserLocation ? Icons.gps_fixed : Icons.gps_not_fixed,
               color: _followUserLocation ? Colors.green : null,
             ),
-            onPressed: _toggleFollowLocation,
+            onPressed: () {
+              _toggleFollowLocation();
+              // Tenta obter posição novamente quando clica no GPS
+              _getCurrentLocationAndCenter();
+            },
             tooltip: _followUserLocation ? 'Seguir localização' : 'Não seguir localização',
           ),
           IconButton(
