@@ -299,8 +299,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _initializeMap() {
     if (!_mapInitialized && _isMapReady) {
-      // Usar um pequeno delay para garantir que o mapa esteja completamente renderizado
-      Future.delayed(Duration(milliseconds: 100), () {
+      // Usar um delay maior para garantir que o mapa esteja completamente renderizado
+      Future.delayed(Duration(milliseconds: 500), () {
         if (mounted && !_mapInitialized) {
           setState(() {
             _mapInitialized = true;
@@ -311,6 +311,9 @@ class _HomeScreenState extends State<HomeScreen> {
             final center = _mapController.camera.center;
             final zoom = _mapController.camera.zoom;
             _mapController.move(center, zoom);
+            
+            // Forçar atualização do estado após mover
+            setState(() {});
           } catch (e) {
             print('Erro ao inicializar mapa: $e');
           }
