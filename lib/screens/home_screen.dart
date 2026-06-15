@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import "package:latlong2/latlong.dart" as latLng;
+import 'package:geolocator/geolocator.dart';
 import '../services/location_service.dart';
 import '../services/database_service.dart';
 import '../services/preferences_service.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late LocationService _locationService;
+  final MapController _mapController = MapController();
   List<latLng.LatLng> _currentRoute = [];
   List<bike_route.Route> _savedRoutes = [];
   Map<int, List<latLng.LatLng>> _savedRoutePoints = {};
@@ -23,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _distanceInfo = 'Distância: 0.00 km';
   String _pointsInfo = 'Pontos: 0';
   bool _isLoading = true;
+  bool _followUserLocation = true; // Se deve seguir automaticamente a posição
 
   @override
   void initState() {
@@ -34,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _initializeLocationService();
     await _loadSavedRoutes();
     await _loadPreferences();
+    await _getCurrentLocationAndCenter();
     setState(() {
       _isLoading = false;
     });
@@ -47,6 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
           _distanceInfo = _formatDistance(_locationService.calculateTotalDistance());
           _pointsInfo = 'Pontos: ${points.length}';
         });
+
+        // Centralizar mapa na posição atual durante gravação
+        if (_locationService.isRecording && _followUserLocation && points.isNotEmpty) {
+          _mapController.move(points.last, 15.0);
+        }
       },
       onError: (error) {
         setState(() {
@@ -65,6 +74,38 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadPreferences() async {
     await PreferencesService.instance.getUseMetric();
     // Aplicar preferências de unidades se necessário
+  }
+
+  Future<void> _getCurrentLocationAndCenter() async {
+    try {
+      final position = await _locationService.getLastKnownPosition();
+      if (position != null) {
+        _mapController.move(
+          latLng.LatLng(position.latitude, position.longitude),
+          15.0,
+        );
+      } else {
+        // Se não tem última posição conhecida, tenta obter posição atual
+        final currentPosition = await Geolocator.getCurrentPosition();
+        _mapController.move(
+          latLng.LatLng(currentPosition.latitude, currentPosition.longitude),
+          15.0,
+        );
+      }
+    } catch (e) {
+      print('Erro ao obter posição atual: $e');
+      // Se falhar, mantém a posição padrão (Londres)
+    }
+  }
+
+  void _toggleFollowLocation() {
+    setState(() {
+      _followUserLocation = !_followUserLocation;
+    });
+
+    if (_followUserLocation && _currentRoute.isNotEmpty) {
+      _mapController.move(_currentRoute.last, 15.0);
+    }
   }
 
   Future<void> _loadSavedRoutes() async {
@@ -258,6 +299,14 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Pedal Around the World'),
         actions: [
           IconButton(
+            icon: Icon(
+              _followUserLocation ? Icons.gps_fixed : Icons.gps_not_fixed,
+              color: _followUserLocation ? Colors.green : null,
+            ),
+            onPressed: _toggleFollowLocation,
+            tooltip: _followUserLocation ? 'Seguir localização' : 'Não seguir localização',
+          ),
+          IconButton(
             icon: Icon(Icons.bar_chart),
             onPressed: () {
               Navigator.pushNamed(context, '/statistics');
@@ -333,6 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildMap() {
     return FlutterMap(
+      mapController: _mapController,
       options: MapOptions(
         initialCenter: latLng.LatLng(51.5, -0.09),
         initialZoom: 13.0,
