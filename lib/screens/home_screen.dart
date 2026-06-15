@@ -294,10 +294,13 @@ class _HomeScreenState extends State<HomeScreen> {
       final routes = await DatabaseService.instance.getAllRoutes();
       setState(() {
         _savedRoutes = routes;
+        // Adicionar automaticamente todas as rotas à seleção
+        _selectedRouteIds = routes.map((r) => r.id!).toSet();
       });
 
-      for (final routeId in _selectedRouteIds) {
-        await _loadRoutePoints(routeId);
+      // Carregar pontos de todas as rotas automaticamente
+      for (final route in routes) {
+        await _loadRoutePoints(route.id!);
       }
     } catch (e) {
       print('Erro ao carregar rotas: $e');
@@ -413,34 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _deleteRoute(int routeId) async {
     await DatabaseService.instance.deleteRoute(routeId);
 
-    setState(() {
-      _selectedRouteIds.remove(routeId);
-      _savedRoutePoints.remove(routeId);
-    });
-
     _loadSavedRoutes();
-  }
-
-  Future<void> _toggleRouteSelection(int routeId) async {
-    setState(() {
-      if (_selectedRouteIds.contains(routeId)) {
-        _selectedRouteIds.remove(routeId);
-        _savedRoutePoints.remove(routeId);
-      } else {
-        _selectedRouteIds.add(routeId);
-      }
-    });
-
-    if (_selectedRouteIds.contains(routeId)) {
-      await _loadRoutePoints(routeId);
-    }
-  }
-
-  void _clearRouteSelection() {
-    setState(() {
-      _selectedRouteIds.clear();
-      _savedRoutePoints.clear();
-    });
   }
 
   Color _getRouteColor(int index) {
@@ -701,29 +677,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Rotas Salvas',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              Row(
-                children: [
-                  if (_selectedRouteIds.isNotEmpty)
-                    TextButton(
-                      onPressed: () {
-                        _clearRouteSelection();
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Limpar seleção'),
-                    ),
-                  Text('${_savedRoutes.length} rotas'),
-                ],
-              ),
+              Text('${_savedRoutes.length} rotas'),
             ],
           ),
-          if (_selectedRouteIds.isNotEmpty)
-            Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Text(
-                '${_selectedRouteIds.length} rota(s) selecionada(s) para visualização',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
-              ),
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Text(
+              'Todas as rotas sempre visíveis no mapa',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
+          ),
         ],
       ),
     );
@@ -743,17 +706,10 @@ class _HomeScreenState extends State<HomeScreen> {
       itemCount: _savedRoutes.length,
       itemBuilder: (context, index) {
         final route = _savedRoutes[index];
-        final isSelected = _selectedRouteIds.contains(route.id!);
         final routeColor = _getRouteColor(index);
 
         return ListTile(
-          leading: Checkbox(
-            value: isSelected,
-            onChanged: (value) {
-              _toggleRouteSelection(route.id!);
-            },
-            activeColor: routeColor,
-          ),
+          leading: Icon(Icons.directions_bike, color: routeColor),
           title: Row(
             children: [
               Container(
@@ -774,9 +730,6 @@ class _HomeScreenState extends State<HomeScreen> {
             '${route.formattedDistance} • ${route.formattedDuration}',
           ),
           trailing: Text(route.formattedDate),
-          onTap: () {
-            _toggleRouteSelection(route.id!);
-          },
           onLongPress: () {
             Navigator.of(context).pop();
             _showRouteDetails(route);
@@ -787,8 +740,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showRouteDetails(bike_route.Route route) {
-    final isSelected = _selectedRouteIds.contains(route.id!);
-
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -805,15 +756,15 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               children: [
                 Icon(
-                  isSelected ? Icons.visibility : Icons.visibility_off,
-                  color: isSelected ? Colors.green : Colors.grey,
+                  Icons.visibility,
+                  color: Colors.green,
                   size: 16,
                 ),
                 SizedBox(width: 8),
                 Text(
-                  isSelected ? 'Visível no mapa' : 'Não visível no mapa',
+                  'Visível no mapa',
                   style: TextStyle(
-                    color: isSelected ? Colors.green : Colors.grey,
+                    color: Colors.green,
                     fontSize: 12,
                   ),
                 ),
@@ -825,13 +776,6 @@ class _HomeScreenState extends State<HomeScreen> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text('Fechar'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _toggleRouteSelection(route.id!);
-            },
-            child: Text(isSelected ? 'Ocultar' : 'Mostrar no mapa'),
           ),
           TextButton(
             onPressed: () {
