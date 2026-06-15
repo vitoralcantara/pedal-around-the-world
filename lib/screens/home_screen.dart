@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _followUserLocation = true; // Se deve seguir automaticamente a posição
   bool _isMapReady = false; // Flag para saber quando o mapa está pronto
   latLng.LatLng? _currentPosition; // Posição atual para o marcador
+  bool _mapInitialized = false; // Para garantir que o mapa seja inicializado
 
   @override
   void initState() {
@@ -47,6 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
     _startLocationTracking(); // Inicia rastreamento contínuo de posição
     setState(() {
       _isLoading = false;
+    });
+
+    // Forçar inicialização do mapa após o widget estar pronto
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _initializeMap();
+      }
     });
   }
 
@@ -287,6 +295,28 @@ class _HomeScreenState extends State<HomeScreen> {
   void _stopLocationTracking() {
     _positionStreamSubscription?.cancel();
     _positionStreamSubscription = null;
+  }
+
+  void _initializeMap() {
+    if (!_mapInitialized && _isMapReady) {
+      // Usar um pequeno delay para garantir que o mapa esteja completamente renderizado
+      Future.delayed(Duration(milliseconds: 100), () {
+        if (mounted && !_mapInitialized) {
+          setState(() {
+            _mapInitialized = true;
+          });
+
+          // Forçar o mapa a redesenhar para carregar os tiles
+          try {
+            final center = _mapController.camera.center;
+            final zoom = _mapController.camera.zoom;
+            _mapController.move(center, zoom);
+          } catch (e) {
+            print('Erro ao inicializar mapa: $e');
+          }
+        }
+      });
+    }
   }
 
   Future<void> _loadSavedRoutes() async {
