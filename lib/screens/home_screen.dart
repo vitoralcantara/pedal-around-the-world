@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import "package:latlong2/latlong.dart" as latLng;
 import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
+import 'package:flutter/scheduler.dart';
 import '../services/location_service.dart';
 import '../services/database_service.dart';
 import '../services/preferences_service.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _pointsInfo = 'Pontos: 0';
   bool _isLoading = true;
   bool _followUserLocation = true; // Se deve seguir automaticamente a posição
+  bool _isMapReady = false; // Flag para saber quando o mapa está pronto
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
 
         // Centralizar mapa na posição atual durante gravação
-        if (_locationService.isRecording && _followUserLocation && points.isNotEmpty) {
+        if (_locationService.isRecording && _followUserLocation && points.isNotEmpty && _isMapReady) {
           _mapController.move(points.last, 15.0);
         }
       },
@@ -99,10 +101,21 @@ class _HomeScreenState extends State<HomeScreen> {
         );
         
         print('Posição obtida: ${currentPosition.latitude}, ${currentPosition.longitude}');
-        _mapController.move(
-          latLng.LatLng(currentPosition.latitude, currentPosition.longitude),
-          16.0,
-        );
+        
+        // Só move o mapa após o widget estar montado
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            setState(() {
+              _isMapReady = true;
+            });
+            
+            _mapController.move(
+              latLng.LatLng(currentPosition.latitude, currentPosition.longitude),
+              16.0,
+            );
+          }
+        });
+        
         setState(() {
           _statusMessage = 'Localização obtida com sucesso';
         });
@@ -113,10 +126,20 @@ class _HomeScreenState extends State<HomeScreen> {
         final lastPosition = await _locationService.getLastKnownPosition();
         if (lastPosition != null) {
           print('Última posição conhecida: ${lastPosition.latitude}, ${lastPosition.longitude}');
-          _mapController.move(
-            latLng.LatLng(lastPosition.latitude, lastPosition.longitude),
-            16.0,
-          );
+          
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() {
+                _isMapReady = true;
+              });
+              
+              _mapController.move(
+                latLng.LatLng(lastPosition.latitude, lastPosition.longitude),
+                16.0,
+              );
+            }
+          });
+          
           setState(() {
             _statusMessage = 'Usando última posição conhecida';
           });
@@ -223,7 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _followUserLocation = !_followUserLocation;
     });
 
-    if (_followUserLocation && _currentRoute.isNotEmpty) {
+    if (_followUserLocation && _currentRoute.isNotEmpty && _isMapReady) {
       _mapController.move(_currentRoute.last, 15.0);
     }
   }
